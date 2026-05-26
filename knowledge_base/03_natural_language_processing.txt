@@ -1,0 +1,161 @@
+TITLE: Natural Language Processing (NLP)
+SOURCE: AI & ML Knowledge Base
+DOC_ID: KB-003
+TOPIC: Natural Language Processing
+DATE: 2024
+
+---
+
+OVERVIEW
+
+Natural Language Processing (NLP) is a branch of artificial intelligence that enables computers to understand, interpret, generate, and interact with human language. NLP bridges the gap between human communication and computer understanding by combining computational linguistics with statistical and deep learning models.
+
+NLP powers everyday applications such as search engines, virtual assistants (Siri, Alexa), machine translation (Google Translate), spell checkers, spam filters, and chatbots.
+
+---
+
+CORE NLP TASKS
+
+1. TOKENIZATION
+Breaking text into smaller units called tokens (words, subwords, or characters).
+- Word tokenization: Splitting by whitespace and punctuation.
+- Subword tokenization: Splitting words into meaningful subunits (e.g., "unhappiness" → "un", "happiness"). Used in modern models like BERT (WordPiece) and GPT (Byte Pair Encoding/BPE).
+
+2. PART-OF-SPEECH (POS) TAGGING
+Assigning grammatical categories (noun, verb, adjective, etc.) to each token in a sentence.
+Example: "The cat sat" → "The/DET cat/NOUN sat/VERB"
+
+3. NAMED ENTITY RECOGNITION (NER)
+Identifying and classifying named entities in text (persons, organizations, locations, dates).
+Example: "Apple was founded by Steve Jobs in Cupertino" → Apple/ORG, Steve Jobs/PERSON, Cupertino/LOC
+
+4. SENTIMENT ANALYSIS
+Determining the emotional tone (positive, negative, neutral) of text.
+Applications: Product reviews, social media monitoring, customer feedback analysis.
+
+5. MACHINE TRANSLATION
+Translating text from one language to another.
+Evolution: Rule-based → Statistical MT → Neural MT (seq2seq) → Transformer-based (Google Translate, DeepL).
+
+6. TEXT SUMMARIZATION
+Condensing long documents into shorter summaries.
+- Extractive: Selecting key sentences from the original text.
+- Abstractive: Generating new sentences that capture the essence of the document.
+
+7. QUESTION ANSWERING (QA)
+Systems that answer questions posed in natural language.
+- Extractive QA: Finding the answer span within a given context (e.g., SQuAD benchmark).
+- Generative QA: Generating an answer from knowledge (e.g., ChatGPT).
+- Open-domain QA: Answering questions without a given context by retrieving relevant documents.
+
+8. TEXT CLASSIFICATION
+Assigning predefined categories to text.
+Applications: Spam detection, topic classification, intent detection, language identification.
+
+9. INFORMATION EXTRACTION
+Extracting structured information from unstructured text.
+Tasks: Relation extraction, event extraction, coreference resolution.
+
+10. TEXT GENERATION
+Producing coherent and contextually appropriate text.
+Applications: Story generation, code generation, email drafting, content creation.
+
+---
+
+KEY NLP CONCEPTS
+
+WORD EMBEDDINGS
+Word embeddings represent words as dense numerical vectors in a continuous space, where semantically similar words are close together.
+
+- Word2Vec (2013): Learns word vectors using Skip-gram or CBOW architectures.
+- GloVe (2014): Global Vectors for Word Representation, based on word co-occurrence statistics.
+- FastText (2016): Extends Word2Vec with subword information for handling out-of-vocabulary words.
+
+Limitation: Static embeddings — same word has the same vector regardless of context.
+
+CONTEXTUAL EMBEDDINGS
+Contextual embeddings produce different representations for the same word based on its context.
+
+- ELMo (2018): Bidirectional LSTM-based contextual embeddings.
+- BERT (2018): Bidirectional Transformer encoder producing deep contextual embeddings.
+- GPT (2018+): Unidirectional Transformer producing contextual embeddings for generation.
+
+ATTENTION MECHANISM
+The attention mechanism allows models to focus on relevant parts of the input when producing each output token. Self-attention allows each token to attend to all other tokens in the same sequence.
+
+LANGUAGE MODELS
+A language model assigns probabilities to sequences of words. It learns to predict the next word given the previous words.
+
+- Statistical language models: n-gram models based on word co-occurrence.
+- Neural language models: Use RNNs or Transformers to model long-range dependencies.
+- Large Language Models (LLMs): Massive Transformer-based models (GPT-4, Claude, Gemini) trained on vast text corpora.
+
+---
+
+PRE-TRAINING AND FINE-TUNING PARADIGM
+
+Modern NLP follows a two-stage approach:
+
+STAGE 1 — PRE-TRAINING
+Train a large model on massive unlabeled text data using self-supervised objectives:
+- Masked Language Modeling (MLM): BERT randomly masks tokens and trains the model to predict them.
+- Causal Language Modeling (CLM): GPT trains the model to predict the next token autoregressively.
+- Span Corruption: T5 masks spans of text and trains the model to reconstruct them.
+
+STAGE 2 — FINE-TUNING
+Adapt the pre-trained model to specific downstream tasks using labeled task-specific data:
+- Full fine-tuning: Update all model parameters.
+- Parameter-efficient fine-tuning (PEFT): Update only a small subset of parameters.
+  - LoRA (Low-Rank Adaptation): Injects trainable low-rank matrices into attention layers.
+  - Adapter layers: Insert small trainable modules between existing layers.
+  - Prefix tuning: Prepend trainable tokens to the input.
+
+---
+
+LARGE LANGUAGE MODELS (LLMs)
+
+Large Language Models are Transformer-based models with billions of parameters trained on internet-scale text data.
+
+KEY LLMs:
+- GPT-4 (OpenAI): Multimodal LLM with strong reasoning and instruction-following capabilities.
+- Claude (Anthropic): Constitutional AI-trained model known for safety and long context handling.
+- Gemini (Google DeepMind): Multimodal model natively trained on text, images, audio, and video.
+- LLaMA (Meta): Open-source LLM family enabling research and customization.
+- Mistral: Efficient open-source models competitive with much larger proprietary models.
+
+EMERGENT CAPABILITIES
+LLMs exhibit emergent capabilities that arise only at sufficient scale:
+- Few-shot learning: Solving tasks from just a few examples in the prompt.
+- Chain-of-thought reasoning: Producing step-by-step reasoning to solve complex problems.
+- Code generation: Writing, debugging, and explaining code.
+- Mathematical reasoning: Solving multi-step math problems.
+
+PROMPT ENGINEERING
+Prompt engineering is the practice of designing effective inputs to LLMs to elicit desired outputs.
+- Zero-shot prompting: Asking the model to perform a task without examples.
+- Few-shot prompting: Providing examples in the prompt to guide the model.
+- Chain-of-thought (CoT) prompting: Instructing the model to reason step by step.
+- Role prompting: Assigning a persona or role to guide responses.
+
+---
+
+NLP BENCHMARKS AND DATASETS
+
+- GLUE / SuperGLUE: Multi-task benchmarks for evaluating NLP model capabilities.
+- SQuAD: Stanford Question Answering Dataset for reading comprehension.
+- CoQA: Conversational QA dataset with follow-up questions.
+- HumanEval: Benchmark for evaluating code generation.
+- MMLU: Massive Multitask Language Understanding for knowledge-intensive QA.
+- BIG-Bench: Diverse benchmark for evaluating LLMs on complex tasks.
+
+---
+
+CHALLENGES IN NLP
+
+1. Ambiguity: Natural language is inherently ambiguous at lexical, syntactic, and semantic levels.
+2. Context understanding: Understanding long-range dependencies and discourse structure.
+3. Common sense reasoning: Incorporating world knowledge not explicit in the text.
+4. Multilingual NLP: Most models perform significantly worse on low-resource languages.
+5. Hallucination: LLMs can generate plausible-sounding but factually incorrect text.
+6. Bias: Models trained on biased data can perpetuate and amplify societal biases.
+7. Evaluation: Automatically evaluating text quality, creativity, and factual accuracy remains difficult.

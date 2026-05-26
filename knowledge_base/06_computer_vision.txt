@@ -1,0 +1,184 @@
+TITLE: Computer Vision
+SOURCE: AI & ML Knowledge Base
+DOC_ID: KB-006
+TOPIC: Computer Vision
+DATE: 2024
+
+---
+
+OVERVIEW
+
+Computer Vision (CV) is a field of artificial intelligence that enables machines to interpret and understand visual information from the world — images, videos, and real-time camera feeds. It aims to replicate and surpass human visual perception by allowing computers to identify objects, scenes, faces, text, and actions in visual data.
+
+Computer vision has seen dramatic advances driven by deep learning, particularly Convolutional Neural Networks (CNNs) and more recently Vision Transformers (ViT). Applications span autonomous driving, medical imaging, surveillance, retail, agriculture, and augmented reality.
+
+---
+
+CORE COMPUTER VISION TASKS
+
+1. IMAGE CLASSIFICATION
+Assigning a single label to an entire image.
+Example: Is this image a cat or a dog?
+Key models: AlexNet, VGG, ResNet, EfficientNet, Vision Transformer (ViT).
+Benchmark: ImageNet (1000 classes, 1.2 million images).
+
+2. OBJECT DETECTION
+Locating and classifying multiple objects within an image using bounding boxes.
+Example: Detecting all cars, pedestrians, and traffic signs in a street image.
+Key models:
+- Two-stage: R-CNN, Fast R-CNN, Faster R-CNN (region proposal + classification).
+- One-stage: YOLO (You Only Look Once), SSD, RetinaNet (faster, end-to-end).
+- Transformer-based: DETR (Detection Transformer).
+
+3. SEMANTIC SEGMENTATION
+Assigning a class label to every pixel in an image.
+Example: Labeling each pixel as road, sky, building, or person.
+Key models: FCN, U-Net, DeepLab, SegFormer.
+
+4. INSTANCE SEGMENTATION
+Combines object detection and semantic segmentation — identifies individual object instances at the pixel level.
+Example: Distinguishing three separate cars in an image, each with its own mask.
+Key models: Mask R-CNN, YOLACT, SOLOv2.
+
+5. POSE ESTIMATION
+Detecting the position and orientation of human body keypoints (joints, limbs).
+Applications: Sports analytics, physical therapy, gesture control, AR filters.
+Key models: OpenPose, HRNet, MediaPipe.
+
+6. OPTICAL CHARACTER RECOGNITION (OCR)
+Extracting text from images or scanned documents.
+Applications: Document digitization, license plate recognition, receipt scanning.
+
+7. FACE RECOGNITION
+Detecting and identifying human faces.
+Applications: Security systems, phone unlock, attendance tracking.
+Key approaches: FaceNet, ArcFace, DeepFace.
+
+8. VIDEO UNDERSTANDING
+Analyzing temporal patterns in video sequences.
+Tasks: Action recognition, video captioning, anomaly detection, tracking.
+Key models: 3D CNNs, Two-stream networks, Video Transformers.
+
+9. DEPTH ESTIMATION
+Predicting depth (distance) information from 2D images.
+Applications: Autonomous driving, robotics, AR.
+Methods: Stereo vision, monocular depth estimation, LiDAR fusion.
+
+10. IMAGE GENERATION
+Creating new images from text descriptions or other inputs.
+Key models: GANs, VAEs, Diffusion Models (Stable Diffusion, DALL-E, Midjourney).
+
+---
+
+CONVOLUTIONAL NEURAL NETWORKS (CNNs) IN DETAIL
+
+CNNs are the backbone of traditional computer vision:
+
+CONVOLUTIONAL LAYER
+Applies learnable filters (kernels) to detect local features:
+- Early layers: Detect edges, corners, and simple textures.
+- Middle layers: Detect shapes, patterns, and object parts.
+- Deep layers: Detect complex, high-level semantic features.
+
+POOLING LAYER
+Reduces spatial dimensions to decrease computation and build translation invariance:
+- Max pooling: Takes the maximum value in each window.
+- Average pooling: Takes the average value in each window.
+- Global average pooling: Reduces each feature map to a single value.
+
+FAMOUS CNN ARCHITECTURES
+- AlexNet (2012): 8 layers, ReLU activations, dropout, GPU training.
+- VGGNet (2014): 16-19 layers using only 3x3 convolutions.
+- GoogLeNet/Inception (2014): Inception modules for multi-scale feature extraction.
+- ResNet (2015): Residual connections allow training 100+ layer networks.
+- DenseNet (2016): Dense connections between all layers.
+- MobileNet (2017): Depthwise separable convolutions for mobile deployment.
+- EfficientNet (2019): Compound scaling for optimal accuracy/efficiency.
+
+---
+
+VISION TRANSFORMERS (ViT)
+
+Introduced in 2020, Vision Transformers apply the Transformer architecture to images:
+1. Split image into fixed-size patches (e.g., 16x16 pixels).
+2. Embed each patch as a vector (patch embedding).
+3. Add positional embeddings.
+4. Process through standard Transformer encoder layers.
+5. Classify using a [CLS] token or global average pooling.
+
+ViT achieves state-of-the-art performance when trained on large datasets.
+
+Variants:
+- DeiT: Data-efficient ViT trained without large-scale pretraining.
+- Swin Transformer: Hierarchical ViT with shifted windows, better for dense prediction tasks.
+- CLIP: Joint vision-language model trained on image-text pairs.
+- SAM (Segment Anything Model): Foundation model for promptable segmentation.
+
+---
+
+DATA AUGMENTATION IN COMPUTER VISION
+
+Data augmentation artificially expands training data to improve generalization:
+- Geometric: Flip, rotate, crop, resize, affine transforms.
+- Color: Brightness, contrast, saturation, hue adjustments.
+- Noise: Gaussian noise, blur, JPEG compression.
+- Cutout / Random Erasing: Randomly masking regions of the image.
+- Mixup: Linearly interpolating between two images and their labels.
+- CutMix: Replacing image regions with patches from another image.
+- AutoAugment: Learning optimal augmentation policies from data.
+
+---
+
+TRANSFER LEARNING IN COMPUTER VISION
+
+Pre-trained CNN models (on ImageNet) are widely used as feature extractors or starting points:
+1. Remove the final classification layer.
+2. Freeze early layers (generic features).
+3. Fine-tune later layers (task-specific features) on new data.
+4. Add a new classification head for the target task.
+
+This approach achieves strong performance even with small datasets (few hundred images).
+
+---
+
+COMPUTER VISION IN AUTONOMOUS DRIVING
+
+Autonomous vehicles use computer vision for:
+- Object detection: Detecting vehicles, pedestrians, cyclists, and obstacles.
+- Lane detection: Identifying road lane markings.
+- Traffic sign recognition: Classifying speed limits and road signs.
+- Depth estimation: Understanding 3D scene geometry.
+- Sensor fusion: Combining camera, LiDAR, and radar data.
+
+Key challenges: Adverse weather, night conditions, edge cases, and safety requirements.
+
+---
+
+MEDICAL IMAGING AND COMPUTER VISION
+
+Computer vision has transformed medical diagnostics:
+- Radiology: Detecting tumors, fractures, and abnormalities in X-rays, CT, and MRI scans.
+- Pathology: Classifying cancer subtypes from histology slides.
+- Ophthalmology: Detecting diabetic retinopathy from retinal images.
+- Dermatology: Identifying skin lesions and melanoma from photographs.
+
+Models: U-Net (widely used for medical segmentation), ResNet, ViT variants.
+
+---
+
+EVALUATION METRICS IN COMPUTER VISION
+
+Classification:
+- Top-1 / Top-5 accuracy on ImageNet.
+
+Object Detection:
+- mAP (mean Average Precision): Area under the precision-recall curve averaged across classes and IoU thresholds.
+- IoU (Intersection over Union): Overlap between predicted and ground truth bounding box.
+
+Segmentation:
+- mIoU (mean Intersection over Union): Average IoU across all classes.
+- Dice coefficient: Overlap metric used in medical imaging.
+
+Image Generation:
+- FID (Fréchet Inception Distance): Measures similarity between generated and real image distributions.
+- CLIP Score: Measures alignment between generated image and text prompt.

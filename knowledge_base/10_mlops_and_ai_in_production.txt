@@ -1,0 +1,283 @@
+TITLE: MLOps and AI in Production
+SOURCE: AI & ML Knowledge Base
+DOC_ID: KB-010
+TOPIC: MLOps and Production AI
+DATE: 2024
+
+---
+
+OVERVIEW
+
+MLOps (Machine Learning Operations) is the set of practices, tools, and culture that unifies ML system development and ML system operations to deploy and maintain ML models in production reliably and efficiently. Borrowing principles from DevOps and software engineering, MLOps addresses the unique challenges of deploying machine learning systems — including data management, model versioning, continuous training, monitoring, and governance.
+
+The gap between a model that works in a notebook and a model that works reliably in production is enormous. MLOps closes that gap.
+
+---
+
+WHY MLOPS MATTERS
+
+Building and training a model is only 5-10% of the total work in a production ML system. The rest includes:
+- Data pipelines and feature engineering.
+- Model serving infrastructure.
+- Monitoring and alerting.
+- Retraining pipelines.
+- Version control for data, code, and models.
+- Security, compliance, and governance.
+
+Without MLOps practices, ML teams face:
+- Models that degrade silently due to data drift.
+- Inability to reproduce past model versions.
+- Slow, risky model deployments.
+- Inconsistent environments between development and production.
+
+---
+
+THE ML LIFECYCLE
+
+1. PROBLEM DEFINITION
+- Define the business objective and success metrics.
+- Determine if ML is the right solution.
+- Define data requirements.
+
+2. DATA ENGINEERING
+- Data collection from various sources.
+- Data validation and quality checks.
+- Data versioning (DVC, Delta Lake).
+- Feature engineering and feature stores.
+
+3. MODEL DEVELOPMENT
+- Exploratory data analysis (EDA).
+- Experiment tracking (MLflow, Weights & Biases).
+- Model training and hyperparameter tuning.
+- Model evaluation and validation.
+
+4. MODEL PACKAGING
+- Containerization with Docker.
+- Model serialization (ONNX, TorchScript, SavedModel).
+- Dependency management.
+
+5. MODEL DEPLOYMENT
+- Serving infrastructure setup.
+- A/B testing and canary deployment.
+- API gateway and load balancing.
+
+6. MONITORING AND MAINTENANCE
+- Model performance monitoring.
+- Data drift detection.
+- Automated retraining triggers.
+- Incident response.
+
+---
+
+EXPERIMENT TRACKING
+
+Experiment tracking records all information needed to reproduce and compare ML experiments:
+- Hyperparameters.
+- Metrics (training loss, validation accuracy).
+- Model artifacts.
+- Code version (Git commit).
+- Data version.
+- Environment (library versions, hardware).
+
+Tools:
+- MLflow: Open-source experiment tracking, model registry, and serving.
+- Weights & Biases (W&B): Rich visualization, collaboration, and artifact tracking.
+- Neptune.ai: Experiment tracking with strong integrations.
+- Comet ML: Experiment tracking with production monitoring.
+- DVC (Data Version Control): Git-based data and model versioning.
+
+---
+
+MODEL SERVING AND DEPLOYMENT
+
+SERVING PATTERNS:
+
+1. REAL-TIME INFERENCE (Online Serving)
+- Model serves predictions synchronously via REST or gRPC API.
+- Low latency requirement (milliseconds to seconds).
+- Use cases: Recommendation systems, fraud detection, chatbots.
+
+2. BATCH INFERENCE
+- Model processes large datasets periodically (daily, weekly).
+- High throughput requirement.
+- Use cases: Generating reports, scoring all users overnight.
+
+3. STREAMING INFERENCE
+- Model processes data from a stream (Kafka, Kinesis) in near-real-time.
+- Use cases: Real-time fraud detection, IoT sensor processing.
+
+4. EDGE INFERENCE
+- Model runs on edge devices (phones, IoT sensors) without cloud connectivity.
+- Requires model compression (quantization, pruning, distillation).
+
+DEPLOYMENT STRATEGIES:
+
+Blue-Green Deployment:
+- Maintain two identical environments (blue = current, green = new).
+- Switch traffic from blue to green after validation.
+- Instant rollback by switching back.
+
+Canary Deployment:
+- Route a small percentage of traffic (e.g., 5%) to new model.
+- Gradually increase traffic as confidence builds.
+- Minimize risk of widespread impact from errors.
+
+Shadow Mode:
+- New model receives same traffic as production model but results are not served.
+- Compare outputs without impacting users.
+
+A/B Testing:
+- Split traffic between model A and model B.
+- Measure business metrics to determine which model is better.
+
+---
+
+MODEL SERVING INFRASTRUCTURE
+
+FRAMEWORKS:
+- TorchServe: PyTorch model serving.
+- TensorFlow Serving: TensorFlow model serving.
+- Triton Inference Server (NVIDIA): Multi-framework, GPU-optimized serving.
+- BentoML: Flexible model serving with multiple framework support.
+- Ray Serve: Scalable model serving built on Ray.
+- vLLM: High-throughput LLM inference with PagedAttention.
+- Ollama: Local LLM serving.
+
+CONTAINERIZATION:
+- Docker: Package model, dependencies, and serving code into portable containers.
+- Kubernetes: Orchestrate and scale model serving containers.
+- Helm: Package manager for Kubernetes deployments.
+
+CLOUD ML PLATFORMS:
+- AWS SageMaker: End-to-end ML platform (training, serving, monitoring).
+- Google Vertex AI: Unified MLOps platform on Google Cloud.
+- Azure ML: Microsoft's ML platform with strong enterprise integration.
+- Hugging Face Inference Endpoints: Easy deployment of Hugging Face models.
+
+---
+
+FEATURE STORES
+
+Feature stores centralize the storage, computation, and serving of features:
+- Offline store: Historical features for training (data warehouse, S3).
+- Online store: Low-latency feature serving for real-time inference (Redis, DynamoDB).
+- Feature registry: Catalog of available features and their definitions.
+
+Benefits:
+- Feature reuse across multiple models.
+- Consistent features between training and serving.
+- Reduced feature computation duplication.
+
+Tools: Feast (open-source), Tecton, Hopsworks, AWS Feature Store.
+
+---
+
+MONITORING IN PRODUCTION
+
+ML systems require specialized monitoring beyond traditional software monitoring:
+
+1. SERVICE HEALTH MONITORING
+- Latency (p50, p95, p99).
+- Throughput (requests per second).
+- Error rate.
+- Resource utilization (CPU, GPU, memory).
+
+2. DATA QUALITY MONITORING
+- Input data schema validation.
+- Missing values and outliers.
+- Data freshness.
+
+3. DATA DRIFT DETECTION
+Detect when input data distribution changes (covariate shift):
+- Statistical tests: Kolmogorov-Smirnov test, Population Stability Index (PSI).
+- Distance metrics: Jensen-Shannon divergence, Wasserstein distance.
+Tools: Evidently AI, Whylogs, Arize, Fiddler.
+
+4. CONCEPT DRIFT DETECTION
+Detect when the relationship between inputs and outputs changes:
+- Monitor prediction distribution.
+- Monitor model performance metrics (requires ground truth labels).
+
+5. MODEL PERFORMANCE MONITORING
+- Track metrics like accuracy, F1, AUC over time.
+- Compare against baseline and alert on degradation.
+- Requires ground truth labels (often delayed).
+
+6. LLM-SPECIFIC MONITORING
+- Hallucination rate.
+- Response quality scores.
+- Toxicity and safety violations.
+- Prompt injection detection.
+- Cost per query.
+
+---
+
+CI/CD FOR MACHINE LEARNING (CI/CD/CT)
+
+Continuous Integration / Continuous Delivery / Continuous Training:
+
+CI (Continuous Integration):
+- Automated testing of data pipelines, feature engineering, and model code.
+- Unit tests, integration tests, data validation tests.
+
+CD (Continuous Delivery):
+- Automated model packaging and deployment.
+- Staging environment validation before production.
+
+CT (Continuous Training):
+- Automated retraining triggered by data drift, performance degradation, or schedule.
+- Automated validation before deploying retrained model.
+
+Tools: GitHub Actions, Jenkins, CircleCI, Kubeflow Pipelines, Apache Airflow, Prefect.
+
+---
+
+MODEL GOVERNANCE
+
+Model governance ensures accountability and compliance in ML systems:
+
+MODEL REGISTRY:
+- Central repository for versioned model artifacts.
+- Metadata: training data, hyperparameters, metrics, owner, approval status.
+- Stage management: Staging → Production → Archived.
+Tools: MLflow Model Registry, AWS SageMaker Model Registry.
+
+MODEL CARDS:
+- Documentation describing model purpose, performance, limitations, and ethical considerations.
+- Introduced by Google to improve model transparency.
+
+DATASHEETS FOR DATASETS:
+- Documentation describing dataset motivation, composition, collection, uses, and distribution.
+
+AUDIT TRAILS:
+- Record all model changes, deployments, and decisions for compliance.
+
+LINEAGE TRACKING:
+- Track the full provenance of a model: data sources → features → training → model → predictions.
+
+---
+
+COST OPTIMIZATION IN PRODUCTION
+
+- Auto-scaling: Scale compute resources based on traffic patterns.
+- Spot instances: Use cheaper preemptible cloud instances for training.
+- Model compression: Quantization, pruning, and distillation to reduce serving costs.
+- Caching: Cache predictions for repeated identical inputs.
+- Batching: Process multiple requests together to improve GPU utilization.
+- Request routing: Route simple requests to smaller, cheaper models.
+
+---
+
+LLMOps — MLOPS FOR LARGE LANGUAGE MODELS
+
+LLMOps extends MLOps to address unique LLM challenges:
+
+- Prompt versioning: Track and version prompt templates.
+- Prompt evaluation: Automated testing of prompt performance.
+- LLM cost tracking: Monitor token usage and API costs.
+- Fine-tuning pipelines: Manage LoRA/QLoRA fine-tuning workflows.
+- RAG pipeline monitoring: Track retrieval quality and answer faithfulness.
+- Safety monitoring: Detect harmful, biased, or off-policy outputs.
+- Gateway management: Route requests across multiple LLM providers.
+
+Tools: LangSmith (LangChain), Langfuse, Arize Phoenix, Helicone, PromptLayer.

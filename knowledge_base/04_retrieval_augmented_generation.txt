@@ -1,0 +1,171 @@
+TITLE: Retrieval Augmented Generation (RAG)
+SOURCE: AI & ML Knowledge Base
+DOC_ID: KB-004
+TOPIC: RAG Systems
+DATE: 2024
+
+---
+
+OVERVIEW
+
+Retrieval Augmented Generation (RAG) is a technique that enhances Large Language Models (LLMs) by providing them with relevant external knowledge retrieved from a knowledge base at query time. Instead of relying solely on knowledge encoded in model weights during pre-training, RAG systems dynamically retrieve relevant documents and inject them into the LLM's context before generating a response.
+
+RAG was introduced by Lewis et al. in the 2020 paper "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks" and has since become the dominant approach for building knowledge-grounded AI applications.
+
+---
+
+WHY RAG IS NEEDED
+
+Large Language Models face several fundamental limitations:
+1. Knowledge Cutoff: LLMs have a training data cutoff and cannot access information after that date.
+2. Hallucination: LLMs sometimes generate plausible-sounding but factually incorrect information.
+3. Lack of Domain Specificity: General-purpose LLMs may lack deep knowledge of specialized domains.
+4. No Source Attribution: LLMs cannot easily cite sources for their claims.
+5. Context Window Limits: The entire knowledge base cannot fit in a single prompt.
+
+RAG addresses all these issues by retrieving relevant, up-to-date, domain-specific documents and grounding the LLM's response in them.
+
+---
+
+TRADITIONAL RAG ARCHITECTURE
+
+A standard RAG system has two main components:
+
+INDEXING PIPELINE (Offline)
+1. Document Loading: Load documents from various sources (PDFs, databases, web pages).
+2. Text Splitting (Chunking): Divide documents into smaller, manageable chunks.
+3. Embedding: Convert each chunk into a dense vector representation using an embedding model.
+4. Vector Storage: Store embeddings and metadata in a vector database.
+
+RETRIEVAL AND GENERATION PIPELINE (Online)
+1. Query Embedding: Convert the user's question into a vector using the same embedding model.
+2. Similarity Search: Find the top-k most similar chunks in the vector database.
+3. Context Assembly: Combine retrieved chunks into a context string.
+4. Prompt Construction: Build a prompt with the question and retrieved context.
+5. LLM Generation: Pass the prompt to the LLM to generate a grounded response.
+
+---
+
+CHUNKING STRATEGIES
+
+Chunking is critical to RAG performance. Common strategies:
+
+1. FIXED-SIZE CHUNKING
+Split text into chunks of a fixed number of tokens (e.g., 512 tokens) with overlap.
+Pros: Simple and consistent. Cons: May split sentences mid-thought.
+
+2. SENTENCE-BASED CHUNKING
+Split at sentence boundaries to preserve semantic completeness.
+Pros: Preserves meaning. Cons: Variable chunk sizes.
+
+3. PARAGRAPH-BASED CHUNKING
+Split at paragraph boundaries.
+Pros: Natural semantic units. Cons: Can produce very long or very short chunks.
+
+4. SEMANTIC CHUNKING
+Use embedding similarity to determine split points where meaning shifts significantly.
+Pros: Semantically coherent chunks. Cons: More computationally expensive.
+
+5. HIERARCHICAL CHUNKING (PARENT-CHILD)
+Index small child chunks for precise retrieval, but return the larger parent chunk for context.
+Pros: Best of both worlds — precision in retrieval, context in generation.
+
+---
+
+EMBEDDING MODELS
+
+Embedding models convert text into vector representations:
+
+- OpenAI text-embedding-3-small / text-embedding-3-large: High quality, proprietary.
+- BGE (BAAI General Embedding): Strong open-source embeddings, multiple sizes.
+- E5 (Microsoft): Effective for retrieval tasks.
+- Nomic Embed: Open-source, competitive performance.
+- Sentence-BERT: Widely used for semantic similarity tasks.
+
+Key metrics for embedding evaluation:
+- MTEB Benchmark: Massive Text Embedding Benchmark for comparing embedding models.
+
+---
+
+VECTOR DATABASES
+
+Vector databases store and efficiently retrieve high-dimensional embedding vectors:
+
+- FAISS (Facebook AI Similarity Search): In-memory, fast, open-source. Good for prototyping.
+- ChromaDB: Open-source, easy to use, supports metadata filtering.
+- Qdrant: Production-ready, supports payload filtering and hybrid search.
+- Weaviate: Cloud-native, supports semantic and keyword search.
+- Pinecone: Managed cloud vector database, easy to scale.
+- Milvus: High-performance, distributed vector database.
+
+Search algorithms:
+- Exact Search: Brute-force comparison (accurate but slow for large datasets).
+- ANN (Approximate Nearest Neighbor): Algorithms like HNSW, IVF for fast approximate search.
+- HNSW (Hierarchical Navigable Small World): Most popular ANN algorithm, fast and accurate.
+
+---
+
+RETRIEVAL STRATEGIES
+
+1. DENSE RETRIEVAL
+Uses vector similarity (cosine, dot product) between query and document embeddings.
+Fast and semantically aware, but may miss keyword matches.
+
+2. SPARSE RETRIEVAL (BM25)
+Classic keyword-based retrieval using term frequency and inverse document frequency.
+Good for exact keyword matching but misses semantic relationships.
+
+3. HYBRID RETRIEVAL
+Combines dense and sparse retrieval scores.
+- Reciprocal Rank Fusion (RRF): Combines ranked lists from multiple retrievers without needing score normalization.
+- Weighted combination: Manually weight dense and sparse scores.
+
+4. RERANKING
+After initial retrieval, a cross-encoder reranker rescores the top-k candidates for better precision.
+- Cross-encoders process query and document together for more accurate relevance scoring.
+- Popular: Cohere Rerank, BGE Reranker, Flashrank.
+
+---
+
+RAG EVALUATION METRICS
+
+RAGAS is the standard framework for evaluating RAG systems:
+
+1. FAITHFULNESS: Is the generated answer grounded in the retrieved context? (measures hallucination)
+2. ANSWER RELEVANCY: Is the generated answer relevant to the question?
+3. CONTEXT PRECISION: Are the retrieved chunks relevant to the question?
+4. CONTEXT RECALL: Are all the necessary facts present in the retrieved chunks?
+5. CONTEXT ENTITY RECALL: Are key entities from the ground truth present in the retrieved context?
+6. ANSWER CORRECTNESS: Is the generated answer factually correct compared to ground truth?
+
+---
+
+ADVANCED RAG TECHNIQUES
+
+1. QUERY REWRITING
+Reformulate the user's query to improve retrieval:
+- Hypothetical Document Embeddings (HyDE): Generate a hypothetical answer, then embed it for retrieval.
+- Step-back prompting: Ask the LLM to generate a more abstract version of the query.
+- Multi-query: Generate multiple query variations and merge retrieved results.
+
+2. SELF-QUERYING
+LLM generates structured metadata filters to narrow the search space before vector retrieval.
+
+3. CONTEXTUAL COMPRESSION
+Filter retrieved chunks to only keep the portions directly relevant to the query before passing to LLM.
+
+4. CORRECTIVE RAG (CRAG)
+Evaluates retrieved documents and falls back to web search if retrieved documents are irrelevant.
+
+5. RAPTOR
+Recursively builds a hierarchical summary tree of documents for better multi-hop reasoning.
+
+---
+
+CITATIONS IN RAG
+
+Proper citation tracking is essential for trust and verifiability:
+1. Metadata tagging: Attach source, page number, chunk ID to every chunk during ingestion.
+2. In-context citation prompting: Instruct LLM to cite [SOURCE_ID] inline in the response.
+3. Post-processing: Map cited IDs back to document metadata for display.
+4. Verification: Optionally verify that citations actually support the claim (attribution scoring).

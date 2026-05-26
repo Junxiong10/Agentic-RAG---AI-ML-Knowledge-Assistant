@@ -1,0 +1,168 @@
+TITLE: Deep Learning and Neural Networks
+SOURCE: AI & ML Knowledge Base
+DOC_ID: KB-002
+TOPIC: Deep Learning
+DATE: 2024
+
+---
+
+OVERVIEW
+
+Deep learning is a subset of machine learning that uses artificial neural networks with multiple layers (hence "deep") to model and understand complex patterns in data. Inspired by the structure and function of the human brain, deep learning has revolutionized fields such as computer vision, natural language processing, speech recognition, and game playing.
+
+The key breakthrough enabling deep learning was the combination of large datasets, increased computational power (especially GPUs), and algorithmic improvements such as better activation functions, initialization strategies, and optimization techniques.
+
+---
+
+ARTIFICIAL NEURAL NETWORKS (ANNs)
+
+An artificial neural network consists of layers of interconnected nodes (neurons):
+
+1. INPUT LAYER: Receives raw data features (e.g., pixel values of an image).
+2. HIDDEN LAYERS: Intermediate layers that learn increasingly abstract representations.
+3. OUTPUT LAYER: Produces the final prediction (e.g., class probabilities).
+
+Each connection between neurons has an associated weight. During training, these weights are adjusted to minimize the loss function using an algorithm called backpropagation combined with gradient descent.
+
+NEURON COMPUTATION
+Each neuron computes a weighted sum of its inputs, adds a bias, and passes the result through an activation function:
+
+output = activation(weight1*input1 + weight2*input2 + ... + bias)
+
+---
+
+ACTIVATION FUNCTIONS
+
+Activation functions introduce non-linearity into the network, enabling it to learn complex patterns:
+
+- Sigmoid: Maps values to range (0, 1). Used in binary classification output layers. Suffers from vanishing gradient problem.
+- Tanh: Maps values to range (-1, 1). Zero-centered, better than sigmoid for hidden layers.
+- ReLU (Rectified Linear Unit): Returns max(0, x). Most widely used. Computationally efficient and mitigates vanishing gradients.
+- Leaky ReLU: Allows small negative values to prevent "dying ReLU" problem.
+- Softmax: Converts logits to probability distribution. Used in multi-class classification output layers.
+- GELU (Gaussian Error Linear Unit): Used in Transformer models like BERT and GPT.
+
+---
+
+BACKPROPAGATION AND GRADIENT DESCENT
+
+BACKPROPAGATION
+Backpropagation is the algorithm used to compute gradients of the loss function with respect to each weight in the network. It works by applying the chain rule of calculus to propagate errors backward from the output layer to the input layer.
+
+GRADIENT DESCENT VARIANTS
+- Batch Gradient Descent: Computes gradients on the entire dataset. Stable but slow.
+- Stochastic Gradient Descent (SGD): Computes gradients on one sample at a time. Fast but noisy.
+- Mini-Batch Gradient Descent: Computes gradients on small batches. Balance of speed and stability.
+
+OPTIMIZERS
+- SGD with Momentum: Accelerates SGD by accumulating past gradients.
+- AdaGrad: Adapts learning rates for each parameter based on historical gradients.
+- RMSProp: Improves AdaGrad by using moving average of squared gradients.
+- Adam (Adaptive Moment Estimation): Combines momentum and RMSProp. Most popular optimizer in deep learning.
+- AdamW: Adam with decoupled weight decay. Used in modern Transformer training.
+
+---
+
+TYPES OF NEURAL NETWORKS
+
+1. CONVOLUTIONAL NEURAL NETWORKS (CNNs)
+CNNs are designed for processing grid-structured data like images. Key components:
+- Convolutional layers: Apply filters to extract local features (edges, textures, shapes).
+- Pooling layers: Reduce spatial dimensions while retaining important features.
+- Fully connected layers: Combine features for final classification.
+
+Popular CNN architectures:
+- LeNet-5 (1998): First successful CNN for digit recognition.
+- AlexNet (2012): Won ImageNet with deep CNN using ReLU and dropout.
+- VGGNet (2014): Deep network using small 3x3 convolution filters.
+- ResNet (2015): Introduced residual connections to train very deep networks (100+ layers).
+- EfficientNet (2019): Scales depth, width, and resolution uniformly.
+
+2. RECURRENT NEURAL NETWORKS (RNNs)
+RNNs are designed for sequential data. They maintain a hidden state that captures information from previous time steps.
+
+Challenges: Vanishing gradient problem makes it hard to learn long-term dependencies.
+
+Variants:
+- LSTM (Long Short-Term Memory): Uses gates (input, forget, output) to control information flow.
+- GRU (Gated Recurrent Unit): Simplified version of LSTM with fewer parameters.
+
+Applications: Time series forecasting, text generation, speech recognition.
+
+3. TRANSFORMERS
+Transformers replaced RNNs as the dominant architecture for NLP. They use self-attention mechanisms to model relationships between all tokens in a sequence simultaneously.
+
+Key components:
+- Multi-head self-attention: Allows the model to attend to different parts of the input.
+- Positional encoding: Injects position information since Transformers have no recurrence.
+- Feed-forward layers: Applied after attention for further processing.
+- Layer normalization: Stabilizes training.
+
+Famous Transformer models:
+- BERT (2018): Bidirectional encoder for understanding tasks (classification, QA).
+- GPT series (2018-2024): Autoregressive decoder for text generation.
+- T5 (2019): Treats all NLP tasks as text-to-text problems.
+- Vision Transformer (ViT, 2020): Applies Transformers to image patches.
+
+4. GENERATIVE ADVERSARIAL NETWORKS (GANs)
+GANs consist of two networks trained simultaneously:
+- Generator: Learns to generate realistic fake data.
+- Discriminator: Learns to distinguish real from fake data.
+Training continues until the generator produces data indistinguishable from real data.
+
+Applications: Image synthesis, data augmentation, style transfer, deepfakes.
+
+5. AUTOENCODERS
+Autoencoders learn a compressed representation (latent space) of input data.
+- Encoder: Compresses input to latent representation.
+- Decoder: Reconstructs input from latent representation.
+
+Variants:
+- Variational Autoencoder (VAE): Learns a probabilistic latent space. Used for generative modeling.
+- Denoising Autoencoder: Trained to reconstruct clean input from corrupted input.
+
+---
+
+REGULARIZATION IN DEEP LEARNING
+
+- Dropout: Randomly sets a fraction of neurons to zero during training to prevent co-adaptation.
+- Batch Normalization: Normalizes layer inputs to stabilize and accelerate training.
+- Weight Decay (L2 Regularization): Penalizes large weights to reduce overfitting.
+- Data Augmentation: Artificially expands training data with transformations (flip, rotate, crop).
+- Early Stopping: Stops training when validation loss stops improving.
+
+---
+
+TRANSFER LEARNING
+
+Transfer learning involves taking a model pre-trained on a large dataset and fine-tuning it on a smaller, domain-specific dataset. This dramatically reduces the data and compute required.
+
+Strategies:
+- Feature extraction: Freeze pre-trained layers and only train the new classification head.
+- Fine-tuning: Unfreeze some or all pre-trained layers and train with a low learning rate.
+
+Transfer learning is especially powerful in computer vision (using ImageNet-pretrained models) and NLP (using pre-trained language models like BERT and GPT).
+
+---
+
+HARDWARE FOR DEEP LEARNING
+
+- GPU (Graphics Processing Unit): Massively parallel processors ideal for matrix operations in neural networks. NVIDIA GPUs (A100, H100) dominate deep learning.
+- TPU (Tensor Processing Unit): Google's custom ASIC designed specifically for tensor computations. Used in Google Cloud.
+- NPU (Neural Processing Unit): Dedicated chips in mobile devices for on-device inference.
+- Distributed Training: Splitting model training across multiple GPUs/machines to handle large models.
+
+---
+
+KEY MILESTONES IN DEEP LEARNING
+
+- 1986: Backpropagation popularized by Rumelhart, Hinton, and Williams.
+- 1998: LeNet-5 demonstrates CNNs for handwritten digit recognition.
+- 2012: AlexNet wins ImageNet, sparking the deep learning revolution.
+- 2014: GANs introduced by Ian Goodfellow.
+- 2015: ResNet achieves superhuman performance on ImageNet.
+- 2017: Transformer architecture introduced in "Attention Is All You Need" paper.
+- 2018: BERT and GPT-1 released, transforming NLP.
+- 2020: GPT-3 released with 175 billion parameters.
+- 2022: ChatGPT launched, bringing LLMs to mainstream.
+- 2024: Multimodal models (text, image, audio) become standard.

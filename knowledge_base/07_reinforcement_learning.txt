@@ -1,0 +1,196 @@
+TITLE: Reinforcement Learning
+SOURCE: AI & ML Knowledge Base
+DOC_ID: KB-007
+TOPIC: Reinforcement Learning
+DATE: 2024
+
+---
+
+OVERVIEW
+
+Reinforcement Learning (RL) is a type of machine learning where an agent learns to make decisions by interacting with an environment. The agent receives feedback in the form of rewards or penalties and learns a policy — a strategy for selecting actions — that maximizes cumulative reward over time.
+
+Unlike supervised learning (which learns from labeled data) and unsupervised learning (which finds patterns in unlabeled data), reinforcement learning learns through trial and error in a dynamic environment. RL has achieved remarkable results in game playing, robotics, resource management, and aligning large language models with human preferences (RLHF).
+
+---
+
+CORE CONCEPTS
+
+AGENT
+The learner and decision-maker. The agent perceives the environment, selects actions, and receives rewards.
+
+ENVIRONMENT
+The external system the agent interacts with. It defines the rules, transitions, and rewards.
+
+STATE (S)
+A representation of the current situation of the environment. Can be fully or partially observable.
+
+ACTION (A)
+A decision or move the agent can take. Action space can be discrete (finite actions) or continuous (infinite range of actions).
+
+REWARD (R)
+A scalar feedback signal the agent receives after taking an action. Positive rewards encourage actions; negative rewards (penalties) discourage them.
+
+POLICY (π)
+The agent's strategy — a mapping from states to actions.
+- Deterministic policy: π(s) = a (always selects the same action in a given state).
+- Stochastic policy: π(a|s) = probability (selects actions with different probabilities).
+
+VALUE FUNCTION
+Estimates the expected cumulative reward from a given state:
+- State value function V(s): Expected return from state s following policy π.
+- Action value function Q(s,a): Expected return from taking action a in state s following policy π.
+
+DISCOUNT FACTOR (γ)
+A value between 0 and 1 that determines how much the agent values future rewards vs immediate rewards.
+- γ = 0: Only cares about immediate reward.
+- γ = 1: Cares equally about all future rewards.
+
+EPISODE
+A sequence of interactions from an initial state to a terminal state.
+
+TRAJECTORY
+The sequence of states, actions, and rewards experienced in an episode.
+
+---
+
+THE REINFORCEMENT LEARNING LOOP
+
+1. Agent observes current state s from environment.
+2. Agent selects action a based on policy π.
+3. Environment transitions to new state s'.
+4. Environment returns reward r.
+5. Agent updates its policy based on (s, a, r, s').
+6. Repeat until convergence or episode termination.
+
+---
+
+CATEGORIES OF RL ALGORITHMS
+
+1. MODEL-FREE RL
+Agent learns directly from interactions without learning an explicit model of the environment.
+
+VALUE-BASED METHODS:
+Learn the value function and derive policy from it.
+- Q-Learning: Off-policy algorithm that learns Q-values using the Bellman equation.
+- Deep Q-Network (DQN): Combines Q-learning with deep neural networks. Used by DeepMind to master Atari games.
+  - Key innovations: Experience replay, target network.
+- Double DQN: Reduces overestimation bias in DQN.
+- Dueling DQN: Separately estimates state value and action advantage.
+- Rainbow DQN: Combines multiple DQN improvements.
+
+POLICY-BASED METHODS:
+Directly optimize the policy without computing value functions.
+- REINFORCE: Monte Carlo policy gradient algorithm.
+- Pros: Works with continuous action spaces. Cons: High variance, slow convergence.
+
+ACTOR-CRITIC METHODS:
+Combine value-based and policy-based approaches.
+- Actor: Updates the policy (selects actions).
+- Critic: Estimates value function (evaluates actions).
+- A3C (Asynchronous Advantage Actor-Critic): Multiple parallel agents update a shared model.
+- A2C: Synchronous version of A3C.
+- PPO (Proximal Policy Optimization): Clips the policy update to prevent large changes. State-of-the-art, widely used. Used in ChatGPT training (RLHF).
+- SAC (Soft Actor-Critic): Off-policy, entropy-regularized. Excellent for continuous control.
+- TD3 (Twin Delayed DDPG): Addresses overestimation in actor-critic methods.
+
+2. MODEL-BASED RL
+Agent learns a model of the environment (transition dynamics and reward function) and uses it for planning.
+- Dyna-Q: Combines Q-learning with a learned environment model.
+- World Models: Learn a compact latent representation of the environment.
+- MuZero: DeepMind's model-based RL that learned world models for Atari, Chess, Go, and Shogi without knowing the rules.
+- Dreamer: Model-based RL using latent imagination for efficient learning.
+
+3. OFFLINE RL (BATCH RL)
+Learns from a fixed dataset of pre-collected experience without interacting with the environment.
+- Conservative Q-Learning (CQL): Prevents overestimation on out-of-distribution actions.
+- Decision Transformer: Frames RL as a sequence modeling problem using Transformers.
+
+---
+
+EXPLORATION VS EXPLOITATION
+
+A fundamental challenge in RL is the exploration-exploitation tradeoff:
+- Exploitation: Use current knowledge to maximize reward.
+- Exploration: Try new actions to discover potentially better strategies.
+
+Strategies:
+- ε-greedy: With probability ε explore randomly, otherwise exploit best known action.
+- Decaying ε-greedy: Start with high exploration and gradually reduce ε.
+- UCB (Upper Confidence Bound): Select actions with high uncertainty.
+- Thompson Sampling: Bayesian approach to exploration.
+- Intrinsic motivation: Reward curiosity or novelty (e.g., Random Network Distillation).
+
+---
+
+MULTI-AGENT REINFORCEMENT LEARNING (MARL)
+
+Multiple agents learn simultaneously in a shared environment:
+- Cooperative: Agents work together toward a shared goal.
+- Competitive: Agents compete (zero-sum games).
+- Mixed: Both cooperation and competition.
+
+Applications: Multi-robot coordination, game AI, traffic control, financial markets.
+
+---
+
+RLHF — REINFORCEMENT LEARNING FROM HUMAN FEEDBACK
+
+RLHF is the key technique used to align LLMs with human preferences:
+
+STEP 1 — SUPERVISED FINE-TUNING (SFT)
+Fine-tune the base LLM on human-written demonstrations of desired behavior.
+
+STEP 2 — REWARD MODEL TRAINING
+- Collect human preference data: Show humans pairs of model outputs and ask which is better.
+- Train a reward model to predict human preference scores.
+
+STEP 3 — PPO FINE-TUNING
+- Use PPO to fine-tune the SFT model to maximize reward model scores.
+- KL divergence penalty prevents the model from drifting too far from the SFT model.
+
+RLHF was used to train InstructGPT, ChatGPT, Claude, and other instruction-following LLMs.
+
+ALTERNATIVES TO RLHF:
+- DPO (Direct Preference Optimization): Directly optimizes for human preferences without a separate reward model. Simpler and more stable than RLHF.
+- RLAIF (RL from AI Feedback): Uses an AI model instead of humans to provide preference labels.
+
+---
+
+KEY APPLICATIONS OF REINFORCEMENT LEARNING
+
+GAME PLAYING:
+- AlphaGo (2016): First AI to defeat world champion in Go using Monte Carlo Tree Search + deep RL.
+- AlphaZero (2017): Learned Chess, Go, and Shogi from scratch using self-play.
+- AlphaStar (2019): Defeated professional StarCraft II players.
+- OpenAI Five (2019): Defeated professional Dota 2 players.
+- DQN Atari (2013): Learned to play 49 Atari games from raw pixels.
+
+ROBOTICS:
+- Learning locomotion for bipedal and quadrupedal robots.
+- Robotic manipulation: Grasping, assembly, and dexterous hand control.
+- Sim-to-real transfer: Training in simulation and deploying on real hardware.
+
+AUTONOMOUS DRIVING:
+- Training driving policies in simulated environments.
+- Optimizing driving behavior for safety and efficiency.
+
+RESOURCE MANAGEMENT:
+- Google: RL for cooling data centers, reducing energy consumption by 40%.
+- Network routing, job scheduling, chip design (AlphaChip).
+
+FINANCE:
+- Algorithmic trading strategies.
+- Portfolio optimization.
+- Risk management.
+
+---
+
+BENCHMARKS IN REINFORCEMENT LEARNING
+
+- OpenAI Gym / Gymnasium: Standard environments for RL research (CartPole, MuJoCo, Atari).
+- MuJoCo: Physics-based continuous control benchmark (HalfCheetah, Ant, Hopper).
+- Atari 2600: 57-game benchmark from raw pixel observations.
+- DMLab: 3D navigation and puzzle environments.
+- NetHack: Procedurally generated roguelike game with complex challenges.
+- SMAC: StarCraft II multi-agent challenge.

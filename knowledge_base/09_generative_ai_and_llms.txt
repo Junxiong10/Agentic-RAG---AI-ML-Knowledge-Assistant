@@ -1,0 +1,234 @@
+TITLE: Generative AI and Large Language Models
+SOURCE: AI & ML Knowledge Base
+DOC_ID: KB-009
+TOPIC: Generative AI
+DATE: 2024
+
+---
+
+OVERVIEW
+
+Generative AI refers to artificial intelligence systems capable of producing new content — text, images, audio, video, code, and 3D models — that resembles human-created content. Unlike discriminative models that classify or predict, generative models learn the underlying distribution of training data and can sample new examples from that distribution.
+
+The emergence of Large Language Models (LLMs) and diffusion models has sparked a generative AI revolution, with models like ChatGPT, Claude, Gemini, DALL-E, Midjourney, and Sora demonstrating unprecedented capabilities in content generation across modalities.
+
+---
+
+TYPES OF GENERATIVE MODELS
+
+1. LARGE LANGUAGE MODELS (LLMs)
+LLMs are massive Transformer-based models trained on internet-scale text data using next-token prediction. They can generate coherent, contextually appropriate text across virtually any topic.
+
+Architecture: Decoder-only Transformer (GPT family) or encoder-decoder (T5, BART).
+
+Training:
+- Pre-training: Self-supervised learning on trillions of tokens of text.
+- Instruction tuning (SFT): Fine-tuning on human demonstrations of helpful behavior.
+- RLHF/DPO: Alignment with human preferences.
+
+Key LLMs (as of 2024):
+- GPT-4o (OpenAI): Multimodal, fast, strong reasoning.
+- Claude 3.5 (Anthropic): Long context (200K tokens), strong analysis and coding.
+- Gemini 1.5 Pro (Google): 1 million token context, native multimodal.
+- LLaMA 3 (Meta): Open-source, strong performance at multiple sizes.
+- Mistral Large: Open-source, efficient, strong multilingual.
+- Command R+ (Cohere): Optimized for RAG and enterprise use.
+
+2. DIFFUSION MODELS
+Diffusion models learn to generate images by learning to reverse a noise process:
+- Forward process: Gradually add Gaussian noise to an image over T steps.
+- Reverse process: Train a neural network to denoise at each step.
+- Sampling: Start from pure noise and iteratively denoise to generate an image.
+
+Key diffusion models:
+- DALL-E 3 (OpenAI): Text-to-image with excellent prompt following.
+- Stable Diffusion (Stability AI): Open-source, highly customizable.
+- Midjourney: Artistic image generation with distinctive aesthetic.
+- Imagen (Google): High-quality photorealistic generation.
+- Sora (OpenAI): Text-to-video diffusion model.
+
+3. GENERATIVE ADVERSARIAL NETWORKS (GANs)
+Two networks trained adversarially:
+- Generator: Creates fake samples.
+- Discriminator: Distinguishes real from fake.
+
+Key GAN models:
+- StyleGAN3: High-quality face and image synthesis.
+- CycleGAN: Image-to-image translation without paired data.
+- Pix2Pix: Paired image translation (sketch to photo, day to night).
+
+GANs have largely been superseded by diffusion models for image generation quality.
+
+4. VARIATIONAL AUTOENCODERS (VAEs)
+Learn a probabilistic latent space for image generation and manipulation.
+Used as a component in latent diffusion models (Stable Diffusion uses a VAE).
+
+5. FLOW-BASED MODELS
+Learn exact likelihood by modeling invertible transformations.
+Applications: High-quality image generation, audio synthesis.
+
+---
+
+TRANSFORMER ARCHITECTURE DEEP DIVE
+
+The Transformer (Vaswani et al., 2017) underpins virtually all modern LLMs.
+
+KEY COMPONENTS:
+
+MULTI-HEAD SELF-ATTENTION
+- Each token attends to all other tokens in the sequence.
+- Multiple attention heads capture different types of relationships.
+- Attention score = softmax(QK^T / √d_k) × V
+  Where Q (queries), K (keys), V (values) are linear projections of input embeddings.
+
+POSITIONAL ENCODING
+Since Transformers process all tokens simultaneously (no recurrence), position information is injected via:
+- Absolute positional encoding: Fixed sinusoidal functions.
+- Learned positional encoding: Trainable position embeddings.
+- RoPE (Rotary Position Embedding): Relative position encoding used in LLaMA, GPT-NeoX.
+- ALiBi: Attention with Linear Biases for better length generalization.
+
+FEED-FORWARD NETWORK (FFN)
+Applied after attention, independently at each position:
+- Two linear layers with a non-linearity (ReLU or GeLU).
+- Often accounts for the majority of model parameters.
+
+LAYER NORMALIZATION
+Pre-norm (before attention) is preferred in modern LLMs for training stability.
+
+CONTEXT LENGTH
+The number of tokens the model can process at once:
+- GPT-2 (2019): 1,024 tokens.
+- GPT-3 (2020): 4,096 tokens.
+- Claude 3 (2024): 200,000 tokens.
+- Gemini 1.5 Pro (2024): 1,000,000 tokens.
+
+SCALING LAWS
+Model performance scales predictably with:
+- Model size (parameters).
+- Dataset size (tokens).
+- Compute budget (FLOPs).
+Chinchilla paper (2022) showed optimal training requires scaling data and model size together.
+
+---
+
+CAPABILITIES OF MODERN LLMs
+
+1. REASONING
+- Chain-of-thought prompting enables multi-step logical and mathematical reasoning.
+- Models like o1/o3 (OpenAI) use extended thinking to solve hard problems.
+
+2. CODE GENERATION
+- LLMs can write, debug, explain, and refactor code in 100+ programming languages.
+- Specialized models: GitHub Copilot, Code LLaMA, DeepSeek Coder.
+
+3. MULTIMODAL UNDERSTANDING
+- Processing and reasoning over text + images (GPT-4V, Claude, Gemini).
+- Audio understanding and generation.
+- Video understanding.
+
+4. TOOL USE AND FUNCTION CALLING
+- LLMs can call external tools (APIs, databases, code interpreters) to extend capabilities.
+- Enables building of autonomous agents and RAG systems.
+
+5. IN-CONTEXT LEARNING
+- LLMs can learn new tasks from just a few examples in the prompt without fine-tuning.
+
+6. INSTRUCTION FOLLOWING
+- Instruction-tuned LLMs reliably follow complex, multi-part instructions.
+
+---
+
+GENERATION PARAMETERS
+
+When using LLMs for text generation, key parameters control output:
+
+- Temperature: Controls randomness. Higher = more creative/random, lower = more deterministic.
+  - 0.0: Greedy (always pick most likely token).
+  - 0.7-1.0: Creative writing.
+  - Close to 0: Factual Q&A.
+
+- Top-p (nucleus sampling): Sample from tokens whose cumulative probability exceeds p.
+  - p=0.9: Common default for balanced output.
+
+- Top-k: Sample from the k most probable tokens.
+
+- Max tokens: Maximum length of generated output.
+
+- Stop sequences: Tokens that cause generation to stop.
+
+- Frequency penalty: Reduces repetition of already-generated tokens.
+
+- Presence penalty: Encourages introducing new topics.
+
+---
+
+PROMPT ENGINEERING FOR GENERATIVE AI
+
+Effective prompting dramatically impacts output quality:
+
+TECHNIQUES:
+- Zero-shot: Direct instruction without examples.
+- Few-shot: Provide 2-5 examples before the task.
+- Chain-of-thought: Add "Let's think step by step."
+- System prompts: Set context, persona, and constraints.
+- Structured output: Request JSON, markdown, or specific formats.
+- Role prompting: "You are an expert in..."
+- Negative prompting: Specify what NOT to do.
+- Self-consistency: Generate multiple answers and take majority vote.
+
+---
+
+HALLUCINATION IN LLMs
+
+Hallucination refers to LLMs generating confident but factually incorrect information.
+
+TYPES:
+- Intrinsic hallucination: Contradicts source documents.
+- Extrinsic hallucination: Cannot be verified from source documents.
+- Factual hallucination: Incorrect real-world facts.
+- Faithfulness hallucination: Summarization that distorts the source.
+
+CAUSES:
+- Exposure bias during training.
+- Over-reliance on parametric knowledge.
+- Insufficient retrieval context (in RAG).
+
+MITIGATION:
+- RAG: Ground generation in retrieved documents.
+- Self-consistency: Multiple generations with voting.
+- Confidence calibration: Model expresses uncertainty.
+- Fact verification: Post-generation checking against sources.
+- Citation requirements: Force model to cite sources.
+
+---
+
+FINE-TUNING LLMs
+
+FULL FINE-TUNING
+Update all model parameters on task-specific data. Computationally expensive.
+
+PARAMETER-EFFICIENT FINE-TUNING (PEFT):
+- LoRA: Inject trainable low-rank matrices into attention layers. Most popular PEFT method.
+- QLoRA: LoRA with 4-bit quantized base model for reduced memory.
+- Prefix Tuning: Prepend trainable vectors to each Transformer layer.
+- Prompt Tuning: Add trainable soft tokens to the input.
+
+QUANTIZATION
+Reduce model precision to decrease memory and increase speed:
+- FP16/BF16: 16-bit floating point.
+- INT8: 8-bit integer. Minimal quality loss.
+- INT4: 4-bit integer. Good quality with significant compression.
+- GPTQ / AWQ: Popular quantization methods for LLM deployment.
+
+---
+
+DEPLOYMENT CONSIDERATIONS
+
+- Latency: Time to first token and tokens per second.
+- Throughput: Number of requests per second.
+- Cost: API cost per token or GPU cost per hour.
+- Context caching: Caching repeated context (system prompts) to reduce cost.
+- Batching: Processing multiple requests simultaneously.
+- Streaming: Returning tokens as they are generated for better user experience.
+- On-device inference: Running small quantized models on edge devices.

@@ -1,0 +1,158 @@
+TITLE: Agentic AI Systems
+SOURCE: AI & ML Knowledge Base
+DOC_ID: KB-005
+TOPIC: AI Agents
+DATE: 2024
+
+---
+
+OVERVIEW
+
+Agentic AI systems are artificial intelligence systems that can autonomously plan, reason, take actions, and interact with external tools and environments to accomplish complex, multi-step tasks. Unlike traditional AI models that simply respond to a single prompt, agents can break down complex goals, decide which tools to use, execute sequences of actions, observe results, and adapt their approach based on feedback.
+
+The rise of powerful Large Language Models (LLMs) has enabled a new generation of LLM-powered agents that can reason in natural language, use tools, and handle complex workflows that previously required human orchestration.
+
+---
+
+CORE COMPONENTS OF AN AI AGENT
+
+1. BRAIN (LLM)
+The LLM serves as the reasoning engine. It processes observations, generates plans, decides which actions to take, and produces final responses. Modern agents use powerful models like GPT-4, Claude, and Gemini as their core reasoning engine.
+
+2. MEMORY
+Agents maintain different types of memory to preserve context and knowledge:
+- In-context memory: Information in the current prompt/context window.
+- External memory: Long-term storage in databases (vector stores, key-value stores).
+- Episodic memory: Record of past interactions and experiences.
+- Semantic memory: General world knowledge from pre-training.
+- Procedural memory: Learned skills and workflows.
+
+3. TOOLS
+Agents can call external tools to extend their capabilities:
+- Web search: Access current information from the internet.
+- Code execution: Write and run code to solve computational problems.
+- Database queries: Retrieve structured information from databases.
+- API calls: Interact with external services.
+- Document retrieval: Search a knowledge base (RAG).
+- Calculator: Perform precise arithmetic.
+- Browser control: Navigate and interact with web pages.
+
+4. PLANNING
+Agents decompose complex tasks into subtasks and plan sequences of actions:
+- Chain-of-thought (CoT): Step-by-step reasoning within a single response.
+- ReAct (Reason + Act): Interleaves reasoning and action steps.
+- Tree of Thoughts (ToT): Explores multiple reasoning branches simultaneously.
+- Plan-and-solve: Generates a full plan before execution.
+
+5. ACTION
+Agents execute actions based on their plan and observe the results before proceeding.
+
+---
+
+AGENT ARCHITECTURES
+
+1. REACT AGENT
+ReAct (Reasoning + Acting) is the most popular agent framework. The agent alternates between:
+- Thought: Internal reasoning about what to do next.
+- Action: Selecting and calling a tool.
+- Observation: Processing the tool's output.
+- Repeat until the final answer is reached.
+
+2. PLAN-AND-EXECUTE AGENT
+Separates planning from execution:
+- Planner LLM: Creates a step-by-step plan.
+- Executor LLM: Executes each step of the plan.
+More efficient for complex tasks as it avoids re-planning at each step.
+
+3. REFLEXION AGENT
+Adds self-reflection to improve performance:
+After a failed attempt, the agent reflects on what went wrong and generates a plan to do better.
+
+4. MULTI-AGENT SYSTEMS
+Multiple specialized agents collaborate to solve complex problems:
+- Orchestrator agent: Coordinates other agents.
+- Specialist agents: Handle specific subtasks (research, writing, coding).
+- Communication: Agents pass messages to share results and context.
+
+Popular frameworks: AutoGen, CrewAI, LangGraph multi-agent.
+
+---
+
+AGENTIC RAG
+
+Agentic RAG enhances standard RAG by adding an agent reasoning loop around the retrieval process.
+
+TRADITIONAL RAG LIMITATIONS:
+- Single retrieval pass — if it misses, the answer is wrong.
+- Cannot decompose complex multi-hop questions.
+- Cannot self-correct when retrieved context is irrelevant.
+
+AGENTIC RAG IMPROVEMENTS:
+- Query analysis: Determines if retrieval is needed and what to retrieve.
+- Query decomposition: Breaks complex questions into sub-queries.
+- Adaptive retrieval: Decides which retrieval strategy to use.
+- Retrieval grading: Evaluates relevance of retrieved chunks.
+- Self-correction: Re-retrieves with a better query if initial retrieval fails.
+- Hallucination checking: Verifies the generated answer is grounded in context.
+- Answer grading: Assesses whether the answer actually resolves the question.
+
+AGENTIC RAG GRAPH (LangGraph implementation):
+- Nodes: analyze_query → retrieve → grade_documents → generate → grade_answer
+- Conditional edges: Route to re-retrieve, rewrite query, or return answer based on grades.
+
+---
+
+TOOL USE IN AGENTS
+
+TOOL DEFINITION
+Tools are defined with:
+- Name: Identifier for the tool.
+- Description: What the tool does (critical — LLM uses this to decide when to call it).
+- Input schema: Expected parameters and types.
+- Output: What the tool returns.
+
+FUNCTION CALLING
+Modern LLMs support structured function/tool calling:
+1. LLM receives tool definitions in the system prompt.
+2. When the LLM decides to use a tool, it outputs a structured tool call (name + arguments).
+3. The application executes the tool and returns the result.
+4. The result is appended to the conversation and the LLM continues reasoning.
+
+TOOL SELECTION STRATEGIES
+- Single tool: Agent has one retrieval tool.
+- Multi-tool: Agent selects from multiple tools (retrieval, search, calculator, etc.).
+- Routing: A dedicated router decides which tool/agent handles the request before calling.
+
+---
+
+AGENT FRAMEWORKS
+
+- LangChain: Most popular framework. Provides abstractions for chains, agents, and tools.
+- LangGraph: Graph-based agent orchestration with stateful workflows and conditional edges.
+- LlamaIndex: Focused on data indexing and retrieval. Strong RAG and agentic RAG support.
+- AutoGen (Microsoft): Multi-agent conversation framework.
+- CrewAI: Role-based multi-agent framework with collaborative workflows.
+- Haystack: Production-focused NLP and RAG pipeline framework.
+
+---
+
+CHALLENGES IN AGENTIC AI
+
+1. Reliability: Agents can get stuck in loops or make poor tool selection decisions.
+2. Latency: Multi-step reasoning and multiple tool calls add significant latency.
+3. Cost: Each LLM call has a cost; multi-turn agents can be expensive.
+4. Hallucination propagation: Errors in early steps can compound through the pipeline.
+5. Safety: Autonomous agents with tool access can cause unintended real-world effects.
+6. Evaluation: Measuring agent performance on complex tasks is challenging.
+7. Context management: Long agent trajectories may exceed context window limits.
+
+---
+
+EVALUATION OF AGENTIC SYSTEMS
+
+- Task completion rate: Percentage of tasks fully completed correctly.
+- Step efficiency: Number of steps taken vs optimal number of steps.
+- Tool precision: Correct tool selected for each subtask.
+- Faithfulness: Final answer grounded in retrieved/observed information.
+- Trajectory evaluation: Human evaluation of the full reasoning chain.
+- Benchmarks: GAIA, AgentBench, HotpotQA (for multi-hop reasoning).

@@ -1,0 +1,192 @@
+TITLE: AI Ethics and Responsible AI
+SOURCE: AI & ML Knowledge Base
+DOC_ID: KB-008
+TOPIC: AI Ethics
+DATE: 2024
+
+---
+
+OVERVIEW
+
+AI Ethics refers to the set of moral principles, values, and governance frameworks that guide the responsible development, deployment, and use of artificial intelligence systems. As AI becomes increasingly embedded in critical decisions affecting healthcare, employment, criminal justice, finance, and social interactions, ensuring that AI systems are fair, transparent, accountable, and safe has become one of the most important challenges in the field.
+
+Responsible AI is not just an academic concern — regulators, governments, and organizations worldwide are establishing AI ethics frameworks, standards, and laws to govern AI use.
+
+---
+
+CORE PRINCIPLES OF AI ETHICS
+
+1. FAIRNESS
+AI systems should treat all individuals and groups equitably without discriminating based on protected attributes such as race, gender, age, religion, or disability.
+
+Types of fairness:
+- Individual fairness: Similar individuals should receive similar treatment.
+- Group fairness: Outcomes should be equally distributed across demographic groups.
+- Counterfactual fairness: Decisions should be the same in a counterfactual world where sensitive attributes differ.
+
+Fairness metrics:
+- Demographic parity: Equal positive outcome rates across groups.
+- Equal opportunity: Equal true positive rates across groups.
+- Equalized odds: Equal true positive and false positive rates across groups.
+- Calibration: Predicted probabilities match actual outcomes equally across groups.
+
+Note: Multiple fairness definitions are often mathematically incompatible — satisfying all simultaneously is impossible.
+
+2. TRANSPARENCY
+AI systems should be understandable and explainable to users, decision-makers, and affected individuals.
+
+- Algorithmic transparency: Understanding how the model works.
+- Decision transparency: Explaining why a specific decision was made.
+- Data transparency: Knowing what data was used to train the model.
+
+3. ACCOUNTABILITY
+There must be clear responsibility for AI systems and their outcomes.
+
+- Who is responsible when an AI system causes harm?
+- Clear governance structures for AI development teams.
+- Audit trails and documentation of model decisions.
+- Mechanisms for users to contest AI decisions.
+
+4. PRIVACY
+AI systems should protect individual privacy and comply with data protection regulations.
+
+- Data minimization: Collect only necessary data.
+- Purpose limitation: Use data only for its intended purpose.
+- Consent: Obtain informed consent for data collection and use.
+- Right to be forgotten: Ability to delete personal data.
+
+Key regulations: GDPR (EU), CCPA (California), PDPA (various countries).
+
+5. SAFETY AND RELIABILITY
+AI systems should perform reliably and safely, especially in high-stakes domains.
+
+- Robustness: Maintain performance under distribution shift and adversarial inputs.
+- Reliability: Consistent behavior across different contexts.
+- Safety: Prevent harmful outcomes, especially in autonomous systems.
+
+6. HUMAN OVERSIGHT
+Critical AI decisions should maintain meaningful human oversight and control.
+
+- Human-in-the-loop: Human review before consequential decisions.
+- Human-on-the-loop: Human monitoring with override capability.
+- Corrigibility: AI systems that can be corrected or shut down.
+
+---
+
+AI BIAS
+
+SOURCES OF BIAS
+
+1. Historical bias: Training data reflects historical inequities (e.g., biased hiring data).
+2. Representation bias: Underrepresented groups in training data lead to poor performance on them.
+3. Measurement bias: Systematic errors in data collection (e.g., different measurement tools for different groups).
+4. Aggregation bias: Using one model for heterogeneous groups with different underlying patterns.
+5. Evaluation bias: Benchmark datasets that don't represent target populations.
+6. Deployment bias: Model used in contexts different from where it was validated.
+
+FAMOUS EXAMPLES OF AI BIAS:
+- COMPAS Recidivism Algorithm: Predicted higher recidivism risk for Black defendants than White defendants with similar profiles.
+- Amazon Hiring Tool (2018): Penalized resumes containing the word "women's" and downranked female applicants.
+- Facial Recognition: Significantly lower accuracy for darker-skinned women (MIT Media Lab, 2018 study).
+- Healthcare Algorithm: Underestimated illness severity in Black patients due to using healthcare costs as a proxy for health needs.
+
+BIAS MITIGATION TECHNIQUES:
+- Pre-processing: Resampling, reweighting, or transforming training data.
+- In-processing: Fairness constraints added to the training objective.
+- Post-processing: Adjusting model outputs to satisfy fairness criteria.
+- Adversarial debiasing: Training a model to be accurate while fooling a bias detector.
+
+---
+
+EXPLAINABLE AI (XAI)
+
+Explainability methods help interpret model decisions:
+
+MODEL-AGNOSTIC METHODS (work with any model):
+- LIME (Local Interpretable Model-agnostic Explanations): Approximates the model locally with an interpretable surrogate.
+- SHAP (SHapley Additive exPlanations): Uses game theory to attribute prediction to each feature.
+- Counterfactual explanations: "What would need to change for the decision to be different?"
+- Anchors: Rule-based explanations that identify sufficient conditions for a prediction.
+
+MODEL-SPECIFIC METHODS:
+- Attention visualization: Visualizing attention weights in Transformers.
+- Saliency maps / Grad-CAM: Highlighting image regions important for CNN classification.
+- Decision tree extraction: Approximating a complex model with a simpler decision tree.
+
+INTERPRETABLE MODELS (inherently explainable):
+- Linear/logistic regression: Coefficients directly indicate feature importance.
+- Decision trees: Transparent if/then logic (up to a certain depth).
+- Rule-based systems: Explicit human-readable rules.
+
+---
+
+AI SAFETY
+
+AI safety focuses on ensuring that AI systems behave as intended and do not cause harm:
+
+ALIGNMENT PROBLEM
+The challenge of ensuring AI systems pursue goals aligned with human values and intentions.
+- Reward hacking: AI finds unintended ways to maximize reward that violate human intent.
+- Goal misgeneralization: AI pursues proxy goals that deviate from true objectives in new contexts.
+- Specification gaming: AI literally achieves specified goals in undesirable ways.
+
+AI SAFETY APPROACHES:
+- Constitutional AI (Anthropic): Training AI with a set of principles it uses to self-critique.
+- RLHF: Aligning models with human preferences through feedback.
+- Red-teaming: Deliberately trying to elicit harmful behavior to find failure modes.
+- Interpretability research: Understanding model internals to detect misaligned objectives.
+- Debate: AI systems argue with each other and humans judge which is more truthful.
+
+CATASTROPHIC RISK:
+- Existential risk from misaligned superintelligent AI (long-term concern).
+- Near-term risks: AI-enabled cyberattacks, disinformation, autonomous weapons.
+
+---
+
+PRIVACY-PRESERVING MACHINE LEARNING
+
+Techniques to train models while protecting data privacy:
+
+- Federated Learning: Train on decentralized data without sharing raw data.
+  - Devices (phones, hospitals) train locally and share only model updates.
+- Differential Privacy: Add calibrated noise to training data or model outputs.
+  - Provides mathematical guarantee that individual records cannot be identified.
+- Secure Multi-party Computation (SMPC): Multiple parties jointly compute without revealing inputs.
+- Homomorphic Encryption: Compute on encrypted data without decrypting.
+
+---
+
+AI GOVERNANCE AND REGULATION
+
+INTERNATIONAL FRAMEWORKS:
+- EU AI Act (2024): First comprehensive AI regulation. Classifies AI by risk level (minimal, limited, high, unacceptable).
+- OECD AI Principles: Guidelines for trustworthy AI adopted by 46+ countries.
+- UNESCO AI Ethics Recommendation: Global framework covering 11 core values.
+- US Executive Order on AI Safety (2023): Requires safety testing for powerful AI systems.
+
+INDUSTRY STANDARDS:
+- ISO/IEC 42001: AI management system standard.
+- NIST AI Risk Management Framework: Comprehensive framework for managing AI risks.
+- IEEE Ethically Aligned Design: Guidelines for autonomous and intelligent systems.
+
+HIGH-RISK AI DOMAINS (requiring extra oversight):
+- Criminal justice (recidivism prediction, predictive policing).
+- Healthcare (diagnosis, treatment recommendations).
+- Hiring and employment decisions.
+- Credit scoring and financial decisions.
+- Education (student assessment and grading).
+- Critical infrastructure.
+
+---
+
+ENVIRONMENTAL IMPACT OF AI
+
+Training large AI models has significant environmental costs:
+- GPT-3 training: Estimated 500 tonnes of CO2 emissions.
+- Large model training consumes gigawatt-hours of electricity.
+
+Mitigation strategies:
+- Efficient model architectures (distillation, pruning, quantization).
+- Using renewable energy for data centers.
+- Model sharing and reuse to avoid redundant training.
+- Green AI research focused on efficiency metrics alongside accuracy.
