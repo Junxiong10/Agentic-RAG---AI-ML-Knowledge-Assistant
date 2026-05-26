@@ -1,0 +1,74 @@
+KNOWLEDGE BASE INDEX
+=====================
+Domain: Artificial Intelligence & Machine Learning
+Total Documents: 10
+Format: Plain Text (.txt)
+Created: 2024
+Version: 1.0
+
+---
+
+DOCUMENT MANIFEST
+
+| DOC_ID | FILENAME                                      | TOPIC                        | KEY CONCEPTS                                                                 |
+|--------|-----------------------------------------------|------------------------------|------------------------------------------------------------------------------|
+| KB-001 | 01_introduction_to_machine_learning.txt       | ML Fundamentals              | Supervised, Unsupervised, RL, ML Pipeline, Overfitting, Evaluation Metrics  |
+| KB-002 | 02_deep_learning_and_neural_networks.txt      | Deep Learning                | CNNs, RNNs, Transformers, GANs, Backpropagation, Transfer Learning          |
+| KB-003 | 03_natural_language_processing.txt            | NLP                          | Tokenization, NER, Sentiment Analysis, LLMs, BERT, GPT, Embeddings          |
+| KB-004 | 04_retrieval_augmented_generation.txt         | RAG Systems                  | RAG Architecture, Chunking, Vector DBs, Hybrid Retrieval, RAGAS, Citations  |
+| KB-005 | 05_agentic_ai_systems.txt                     | AI Agents                    | ReAct, Planning, Tool Use, Multi-Agent, Agentic RAG, LangGraph              |
+| KB-006 | 06_computer_vision.txt                        | Computer Vision              | Image Classification, Object Detection, Segmentation, CNNs, ViT, YOLO       |
+| KB-007 | 07_reinforcement_learning.txt                 | Reinforcement Learning       | Q-Learning, DQN, PPO, SAC, RLHF, DPO, AlphaGo, Multi-Agent RL              |
+| KB-008 | 08_ai_ethics_and_responsible_ai.txt           | AI Ethics                    | Fairness, Bias, XAI, SHAP, LIME, GDPR, EU AI Act, Safety, Privacy           |
+| KB-009 | 09_generative_ai_and_llms.txt                 | Generative AI                | LLMs, Diffusion Models, GANs, Hallucination, Fine-Tuning, LoRA, Prompting   |
+| KB-010 | 10_mlops_and_ai_in_production.txt             | MLOps                        | Model Serving, Monitoring, Drift Detection, CI/CD/CT, Feature Stores, LLMOps|
+
+---
+
+SAMPLE QUESTIONS THIS KNOWLEDGE BASE CAN ANSWER
+
+SINGLE-HOP (simple retrieval):
+- What is the difference between supervised and unsupervised learning?
+- What is RAG and why is it needed?
+- What activation functions are used in deep learning?
+- What is RLHF and how does it work?
+- What are common AI bias mitigation techniques?
+
+MULTI-HOP (requires reasoning across multiple docs):
+- How does Agentic RAG improve upon traditional RAG, and what agent frameworks are used to build it?
+- What is the relationship between Transformers, BERT, and modern LLMs?
+- How does reinforcement learning relate to training large language models?
+- What monitoring strategies are needed for RAG systems in production?
+- How do diffusion models compare to GANs for image generation?
+
+OUT-OF-SCOPE (should return "I don't know"):
+- What is the weather in Kuala Lumpur today?
+- Who won the 2024 FIFA World Cup?
+- What is the recipe for nasi lemak?
+- How do I fix a bug in my React app?
+
+---
+
+CHUNKING RECOMMENDATION
+
+Chunk size: 400-600 tokens
+Overlap: 50-100 tokens
+Strategy: Hierarchical (parent-child)
+- Child chunks: 400 tokens for precise retrieval
+- Parent chunks: Full section for context-rich generation
+
+---
+
+EMBEDDING RECOMMENDATION
+
+Model: text-embedding-3-small (OpenAI) or bge-large-en-v1.5 (open-source)
+Dimensions: 1536 (OpenAI) or 1024 (BGE)
+Similarity metric: Cosine similarity
+
+---
+
+RETRIEVAL RECOMMENDATION
+
+Top-k: 5 chunks per query
+Strategy: Hybrid (dense + BM25) with reranking
+Reranker: bge-reranker-v2-m3 or Cohere Rerank
