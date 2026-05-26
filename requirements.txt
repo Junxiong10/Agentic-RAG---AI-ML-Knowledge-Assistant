@@ -1,0 +1,10 @@
+langchain
+langchain-core
+langchain-community
+langchain-ollama
+langchain-chroma
+langgraph
+chromadb
+rank-bm25
+streamlit
+python-dotenv
