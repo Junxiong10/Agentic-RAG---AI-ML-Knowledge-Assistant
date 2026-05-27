@@ -1,4 +1,4 @@
-# 🤖 Agentic RAG — Simple Edition
+# 🤖 Agentic RAG
 **100% Local: Qwen 2.5:7b + nomic-embed-text via Ollama. No OpenAI, no TensorFlow.**
 
 ---
